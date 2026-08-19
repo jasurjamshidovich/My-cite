@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Жасур — Portfolio</title>
+    <meta
+      name="description"
+      content="Персональный сайт-портфолио Жасура: медицина, web-разработка, проекты и интересы."
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <nav>
+      <div class="container nav-inner">
+        <a class="logo" href="#home">J<span>.</span></a>
+        <div class="nav-links">
+          <a href="#about">Обо мне</a>
+          <a href="#skills">Навыки</a>
+          <a href="#projects">Проекты</a>
+          <a href="#interests">Интересы</a>
+          <a href="#contact">Контакты</a>
+        </div>
+      </div>
+    </nav>
+
+    <main id="home">
+      <section class="hero">
+        <div class="container hero-grid">
+          <div class="reveal">
+            <div class="eyebrow">✦ Personal Portfolio / 2026</div>
+            <h1>Привет, я <span class="gradient">Жасур.</span></h1>
+            <p>
+              Студент-медик, начинающий web-разработчик и человек, которому
+              нравится разбираться в технологиях, играх, музыке и создавать
+              что-то своё.
+            </p>
+            <div class="sound-indicator">
+              <span id="sound-dot"></span> Звуки интерфейса включены
+            </div>
+            <div class="buttons">
+              <a class="btn primary" href="#projects"
+                >Посмотреть мои работы →</a
+              >
+              <a class="btn" href="#contact">Связаться</a>
+            </div>
+          </div>
+
+          <aside class="profile-card reveal">
+            <div class="avatar photo-avatar">
+              <img src="profile.jpg" alt="Жасур" />
+            </div>
+            <h2>Жасур</h2>
+            <p>Medical student · Web developer · Explorer</p>
+            <div class="music-player">
+              <div class="music-top">
+                <div class="music-cover">♫</div>
+                <div>
+                  <small>Сейчас играет</small>
+                  <strong id="music-title">Joji — Back Home</strong>
+                  <span>Personal playlist</span>
+                </div>
+              </div>
+              <div class="music-progress">
+                <span id="music-progress"></span>
+              </div>
+              <div class="music-controls">
+                <button id="music-prev" aria-label="Предыдущий">⏮</button>
+                <button
+                  id="music-play"
+                  class="music-play"
+                  aria-label="Воспроизведение"
+                >
+                  ▶
+                </button>
+                <button id="music-next" aria-label="Следующий">⏭</button>
+              </div>
+              <audio id="music-audio" preload="metadata">
+                <source id="music-source" src="back-home.mp3" type="audio/mpeg" />
+              </audio>
+              <p class="music-note" id="music-note">
+                Добавь файл <b>back-home.mp3</b> в эту папку, чтобы
+                воспроизводить трек.
+              </p>
+            </div>
+
+            <div class="facts">
+              <div class="fact"><small>Учёба</small>Медицинский институт</div>
+              <div class="fact">
+                <small>Web</small>HTML · CSS · JavaScript · React · Next.js
+              </div>
+              <div class="fact">
+                <small>Люблю</small>Кино · Музыка · Игры · Технологии
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="about">
+        <div class="container">
+          <div class="reveal">
+            <h2 class="section-title">Обо мне</h2>
+            <p class="section-sub">
+              Мне интересно не ограничиваться одной сферой. Я изучаю медицину,
+              параллельно развиваюсь в программировании и люблю понимать, как
+              устроены вещи — от веб-интерфейсов до игровых механик и
+              технологий.
+            </p>
+          </div>
+
+          <div class="grid">
+            <article class="card reveal">
+              <div class="icon">🩺</div>
+              <h3>Медицина</h3>
+              <p>
+                Изучаю клинические дисциплины, диагностику и современные подходы
+                к медицине.
+              </p>
+              <div class="tags">
+                <span class="tag">Clinical</span
+                ><span class="tag">Diagnostics</span
+                ><span class="tag">Study</span>
+              </div>
+            </article>
+            <article class="card reveal">
+              <div class="icon">💻</div>
+              <h3>Web Development</h3>
+              <p>
+                Изучаю frontend и создаю сайты с помощью HTML, CSS, JavaScript,
+                React и Next.js.
+              </p>
+              <div class="tags">
+                <span class="tag">HTML</span><span class="tag">CSS</span
+                ><span class="tag">JavaScript</span
+                ><span class="tag">React</span>
+              </div>
+            </article>
+            <article class="card reveal">
+              <div class="icon">🧠</div>
+              <h3>Постоянное обучение</h3>
+              <p>
+                Люблю осваивать новые инструменты и превращать знания в реальные
+                проекты.
+              </p>
+              <div class="tags">
+                <span class="tag">Learning</span
+                ><span class="tag">Research</span
+                ><span class="tag">Growth</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="skills">
+        <div class="container">
+          <div class="reveal">
+            <h2 class="section-title">Что я умею</h2>
+            <p class="section-sub">
+              Мой текущий набор навыков и направления, которые продолжаю
+              прокачивать.
+            </p>
+          </div>
+
+          <div class="grid">
+            <article class="card reveal">
+              <div class="icon">🌐</div>
+              <h3>HTML</h3>
+              <p>Создание структуры веб-страниц и семантическая разметка.</p>
+              <div class="tags">
+                <span class="tag">HTML5</span><span class="tag">Semantic</span>
+              </div>
+            </article>
+            <article class="card reveal">
+              <div class="icon">🎨</div>
+              <h3>CSS</h3>
+              <p>
+                Адаптивная вёрстка, сетки, стили, анимации и современные
+                интерфейсы.
+              </p>
+              <div class="tags">
+                <span class="tag">CSS3</span><span class="tag">Responsive</span
+                ><span class="tag">UI</span>
+              </div>
+            </article>
+            <article class="card reveal">
+              <div class="icon">⚡</div>
+              <h3>JavaScript</h3>
+              <p>
+                Массивы, объекты, функции, циклы, методы, DOM и логика
+                приложений.
+              </p>
+              <div class="tags">
+                <span class="tag">JS</span><span class="tag">DOM</span>
+              </div>
+            </article>
+            <article class="card reveal">
+              <div class="icon">⚛️</div>
+              <h3>React</h3>
+              <p>
+                Изучаю компонентный подход и интерактивные современные
+                интерфейсы.
+              </p>
+              <div class="tags">
+                <span class="tag">React</span
+                ><span class="tag">Components</span>
+              </div>
+            </article>
+            <article class="card reveal">
+              <div class="icon">▲</div>
+              <h3>Next.js</h3>
+              <p>
+                Изучаю современный frontend-стек и архитектуру более крупных
+                приложений.
+              </p>
+              <div class="tags">
+                <span class="tag">Next.js</span
+                ><span class="tag">Frontend</span>
+              </div>
+            </article>
+            <article class="card reveal">
+              <div class="icon">🖥️</div>
+              <h3>Компьютеры</h3>
+              <p>
+                Разбираюсь с Windows, железом, настройками ПК, играми и
+                периферией.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects">
+        <div class="container">
+          <div class="reveal">
+            <h2 class="section-title">Мои проекты</h2>
+            <p class="section-sub">
+              Небольшие реальные проекты, которые можно открыть и протестировать
+              прямо здесь.
+            </p>
+          </div>
+
+          <div class="projects-grid">
+            <article class="project-card reveal">
+              <div class="project-head">
+                <div>
+                  <span class="project-number">01</span>
+                  <h3>Калькулятор</h3>
+                </div>
+                <span class="project-tech">HTML · CSS · JS</span>
+              </div>
+              <div class="calculator">
+                <div id="calc-display" class="calc-display">0</div>
+                <div class="calc-grid">
+                  <button class="calc-btn muted" data-calc="clear">C</button>
+                  <button class="calc-btn muted" data-calc="back">⌫</button>
+                  <button class="calc-btn operator" data-calc="operator">
+                    ÷
+                  </button>
+                  <button class="calc-btn operator" data-calc="operator">
+                    ×
+                  </button>
+                  <button class="calc-btn" data-calc="number">7</button>
+                  <button class="calc-btn" data-calc="number">8</button>
+                  <button class="calc-btn" data-calc="number">9</button>
+                  <button class="calc-btn operator" data-calc="operator">
+                    −
+                  </button>
+                  <button class="calc-btn" data-calc="number">4</button>
+                  <button class="calc-btn" data-calc="number">5</button>
+                  <button class="calc-btn" data-calc="number">6</button>
+                  <button class="calc-btn operator" data-calc="operator">
+                    +
+                  </button>
+                  <button class="calc-btn" data-calc="number">1</button>
+                  <button class="calc-btn" data-calc="number">2</button>
+                  <button class="calc-btn" data-calc="number">3</button>
+                  <button class="calc-btn equal tall" data-calc="equal">
+                    =
+                  </button>
+                  <button class="calc-btn zero" data-calc="number">0</button>
+                  <button class="calc-btn" data-calc="decimal">.</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="project-card reveal">
+              <div class="project-head">
+                <div>
+                  <span class="project-number">02</span>
+                  <h3>Крестики-нолики</h3>
+                </div>
+                <span class="project-tech">JavaScript</span>
+              </div>
+              <div class="ttt-status" id="ttt-status">Ход: X</div>
+              <div id="ttt-board" class="ttt-board">
+                <button data-cell="0"></button><button data-cell="1"></button
+                ><button data-cell="2"></button> <button data-cell="3"></button
+                ><button data-cell="4"></button><button data-cell="5"></button>
+                <button data-cell="6"></button><button data-cell="7"></button
+                ><button data-cell="8"></button>
+              </div>
+              <button class="btn project-reset" id="ttt-reset">
+                Начать заново
+              </button>
+            </article>
+
+            <article class="project-card reveal">
+              <div class="project-head">
+                <div>
+                  <span class="project-number">03</span>
+                  <h3>Генератор цвета</h3>
+                </div>
+                <span class="project-tech">JavaScript</span>
+              </div>
+              <div id="color-preview" class="color-preview">#7C5CFF</div>
+              <div class="color-code" id="color-code">#7C5CFF</div>
+              <button class="btn primary full" id="new-color">
+                Сгенерировать цвет
+              </button>
+            </article>
+
+            <article class="project-card reveal">
+              <div class="project-head">
+                <div>
+                  <span class="project-number">04</span>
+                  <h3>Список задач</h3>
+                </div>
+                <span class="project-tech">HTML · CSS · JS</span>
+              </div>
+              <div class="todo-form">
+                <input
+                  id="todo-input"
+                  type="text"
+                  placeholder="Например: изучить React"
+                />
+                <button class="btn primary" id="todo-add">+</button>
+              </div>
+              <ul id="todo-list" class="todo-list"></ul>
+              <div class="todo-count" id="todo-count">Задач: 0</div>
+            </article>
+
+            <article class="project-card reveal">
+              <div class="project-head">
+                <div>
+                  <span class="project-number">05</span>
+                  <h3>Секундомер</h3>
+                </div>
+                <span class="project-tech">JavaScript</span>
+              </div>
+              <div class="stopwatch-time" id="stopwatch-time">00:00:00</div>
+              <div class="stopwatch-actions">
+                <button class="btn primary" id="sw-start">Старт</button>
+                <button class="btn" id="sw-pause">Пауза</button>
+                <button class="btn" id="sw-reset">Сброс</button>
+              </div>
+            </article>
+
+            <article class="project-card reveal">
+              <div class="project-head">
+                <div>
+                  <span class="project-number">06</span>
+                  <h3>Счётчик</h3>
+                </div>
+                <span class="project-tech">JavaScript</span>
+              </div>
+              <div class="counter-value" id="counter-value">0</div>
+              <div class="counter-actions">
+                <button class="btn" id="counter-minus">−</button>
+                <button class="btn primary" id="counter-plus">+</button>
+                <button class="btn" id="counter-reset">Сброс</button>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="interests">
+        <div class="container">
+          <div class="reveal">
+            <h2 class="section-title">Вне работы</h2>
+            <p class="section-sub">
+              Потому что портфолио — это не только список технологий.
+            </p>
+          </div>
+          <div class="timeline">
+            <div class="timeline-item reveal">
+              <div class="date">🎬 Кино</div>
+              <div>
+                <h3>Истории и идеи</h3>
+                <p>
+                  Люблю фильмы с необычной концепцией, особенно работы
+                  Кристофера Нолана.
+                </p>
+              </div>
+            </div>
+            <div class="timeline-item reveal">
+              <div class="date">🎵 Музыка</div>
+              <div>
+                <h3>Музыка как атмосфера</h3>
+                <p>
+                  Слушаю разную музыку и использую её как часть своего
+                  настроения и концентрации.
+                </p>
+              </div>
+            </div>
+            <div class="timeline-item reveal">
+              <div class="date">🎮 Игры</div>
+              <div>
+                <h3>Игры и исследование</h3>
+                <p>
+                  Играю в разные проекты и люблю разбираться в механиках, модах
+                  и технической стороне игр.
+                </p>
+              </div>
+            </div>
+            <div class="timeline-item reveal">
+              <div class="date">💡 Будущее</div>
+              <div>
+                <h3>Стать сильнее</h3>
+                <p>
+                  Главная идея — постоянно расширять круг навыков и превращать
+                  знания в реальные проекты.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact">
+        <div class="container">
+          <div class="contact reveal">
+            <h2 class="section-title">Давай что-нибудь создадим.</h2>
+            <p>
+              Позже сюда можно добавить Telegram, GitHub, Instagram, email и
+              ссылки на реальные проекты.
+            </p>
+            <div class="buttons center">
+              <a class="btn primary" href="mailto:your@email.com"
+                >Написать мне</a
+              >
+              <a class="btn" href="#home">↑ Наверх</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>© <span id="year"></span> Jasur. Built with curiosity.</footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
