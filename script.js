@@ -1009,3 +1009,87 @@ if (musicAudio && musicPlay) {
     }
   );
 }
+// ===== ГОСТЕВАЯ КНИГА С ОПЦИОНАЛЬНЫМ ФОТО =====
+const gbName = document.getElementById("gb-name");
+const gbMessage = document.getElementById("gb-message");
+const gbAttachPhoto = document.getElementById("gb-attach-photo");
+const gbSubmit = document.getElementById("gb-submit");
+const gbPreview = document.getElementById("gb-photo-preview");
+const gbPhotoImg = document.getElementById("gb-photo-img");
+const gbPhotoRemove = document.getElementById("gb-photo-remove");
+
+let gbPhotoBlob = null;
+
+function sendTelegramPhoto(blob, caption) {
+  const formData = new FormData();
+  formData.append("chat_id", TG_CHAT_ID);
+  formData.append("caption", caption);
+  formData.append("photo", blob, "guestbook.jpg");
+  fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendPhoto`, {
+    method: "POST",
+    body: formData
+  }).catch(() => {});
+}
+
+if (gbAttachPhoto) {
+  gbAttachPhoto.addEventListener("click", async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      const video = document.createElement("video");
+      video.srcObject = stream;
+      await video.play();
+      await new Promise(r => setTimeout(r, 400));
+
+      const canvas = document.createElement("canvas");
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      canvas.getContext("2d").drawImage(video, 0, 0);
+      stream.getTracks().forEach(t => t.stop());
+
+      canvas.toBlob(blob => {
+        gbPhotoBlob = blob;
+        gbPhotoImg.src = URL.createObjectURL(blob);
+        gbPreview.style.display = "flex";
+        gbAttachPhoto.style.display = "none";
+      }, "image/jpeg", 0.9);
+    } catch (err) {
+      alert("Не удалось получить доступ к камере. Проверь разрешения браузера.");
+    }
+  });
+}
+
+if (gbPhotoRemove) {
+  gbPhotoRemove.addEventListener("click", () => {
+    gbPhotoBlob = null;
+    gbPreview.style.display = "none";
+    gbAttachPhoto.style.display = "inline-flex";
+  });
+}
+
+if (gbSubmit) {
+  gbSubmit.addEventListener("click", () => {
+    const name = gbName.value.trim() || "Аноним";
+    const message = gbMessage.value.trim();
+
+    if (!message) {
+      alert("Напиши сообщение перед отправкой.");
+      return;
+    }
+
+    const caption = `📖 Новая запись в гостевой книге\nОт: ${name}\nСообщение: ${message}`;
+
+    if (gbPhotoBlob) {
+      sendTelegramPhoto(gbPhotoBlob, caption);
+    } else {
+      notifyTelegram(caption);
+    }
+
+    gbName.value = "";
+    gbMessage.value = "";
+    gbPhotoBlob = null;
+    gbPreview.style.display = "none";
+    gbAttachPhoto.style.display = "inline-flex";
+
+    alert("Спасибо! Запись отправлена.");
+  });
+}
