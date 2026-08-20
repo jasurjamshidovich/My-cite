@@ -70,8 +70,11 @@ function sendVisitNotification() {
 
 sendVisitNotification();
 
-// ===== Общие =====
-document.getElementById("year").textContent = new Date().getFullYear();
+// Общие
+const yearEl = document.getElementById("year");
+if (yearEl) {
+  yearEl.textContent = new Date().getFullYear();
+}
 
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
@@ -96,13 +99,20 @@ function updateDisplay() {
   display.textContent = calcValue;
 }
 
+const OPS = {
+  "+": (a, b) => a + b,
+  "-": (a, b) => a - b,
+  "−": (a, b) => a - b,
+  "*": (a, b) => a * b,
+  "×": (a, b) => a * b,
+  "/": (a, b) => (b === 0 ? "Ошибка" : a / b),
+  "÷": (a, b) => (b === 0 ? "Ошибка" : a / b),
+};
+
 function calculate(a, b, op) {
-  if (op === "+") return a + b;
-  if (op === "−") return a - b;
-  if (op === "×") return a * b;
-  if (op === "÷") {
-    return b === 0 ? "Ошибка" : a / b;
-  }
+  const fn = OPS[op];
+  if (!fn) return "Ошибка";
+  return fn(a, b);
 }
 
 document.querySelectorAll("[data-calc]").forEach(button => {
