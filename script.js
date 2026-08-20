@@ -11,10 +11,64 @@ function notifyTelegram(text) {
   fetch(url).catch(() => {});
 }
 
-// Уведомление о заходе на сайт
-notifyTelegram(
-  `🌐 Новый визит на сайт\nВремя: ${new Date().toLocaleString("ru-RU")}`
-);
+// Уведомление о заходе на сайт (с подробностями о посетителе)
+function getDeviceInfo() {
+  const ua = navigator.userAgent;
+
+  let browser = "Неизвестно";
+  if (ua.includes("Edg")) browser = "Edge";
+  else if (ua.includes("Chrome")) browser = "Chrome";
+  else if (ua.includes("Firefox")) browser = "Firefox";
+  else if (ua.includes("Safari")) browser = "Safari";
+
+  let os = "Неизвестно";
+  if (ua.includes("Windows")) os = "Windows";
+  else if (ua.includes("Mac")) os = "macOS";
+  else if (ua.includes("Android")) os = "Android";
+  else if (ua.includes("iPhone") || ua.includes("iPad")) os = "iOS";
+  else if (ua.includes("Linux")) os = "Linux";
+
+  const device = /Mobi|Android|iPhone|iPad/i.test(ua)
+    ? "Телефон/планшет"
+    : "Компьютер";
+
+  return { browser, os, device };
+}
+
+function sendVisitNotification() {
+  const { browser, os, device } = getDeviceInfo();
+  const referrer = document.referrer || "Прямой переход";
+  const time = new Date().toLocaleString("ru-RU");
+
+  fetch("https://ipapi.co/json/")
+    .then(res => res.json())
+    .then(data => {
+      const location =
+        `${data.city || "?"}, ${data.country_name || "?"}`;
+
+      notifyTelegram(
+        `🌐 Новый визит на сайт\n` +
+        `Время: ${time}\n` +
+        `Устройство: ${device} (${os})\n` +
+        `Браузер: ${browser}\n` +
+        `Откуда пришёл: ${referrer}\n` +
+        `Местоположение: ${location}\n` +
+        `IP: ${data.ip || "?"}`
+      );
+    })
+    .catch(() => {
+      notifyTelegram(
+        `🌐 Новый визит на сайт\n` +
+        `Время: ${time}\n` +
+        `Устройство: ${device} (${os})\n` +
+        `Браузер: ${browser}\n` +
+        `Откуда пришёл: ${referrer}\n` +
+        `Местоположение: не удалось определить`
+      );
+    });
+}
+
+sendVisitNotification();
 
 // ===== Общие =====
 document.getElementById("year").textContent = new Date().getFullYear();
