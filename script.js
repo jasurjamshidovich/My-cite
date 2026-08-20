@@ -125,22 +125,160 @@ function updateDisplay() {
   display.textContent = calcValue;
 }
 
-const OPS = {
-  "+": (a, b) => a + b,
-  "-": (a, b) => a - b,
-  "−": (a, b) => a - b,
-  "*": (a, b) => a * b,
-  "×": (a, b) => a * b,
-  "/": (a, b) => (b === 0 ? "Ошибка" : a / b),
-  "÷": (a, b) => (b === 0 ? "Ошибка" : a / b),
-};
+// ===== КАЛЬКУЛЯТОР =====
 
-function calculate(a, b, op) {
-  const fn = OPS[op];
-  if (!fn) return "Ошибка";
-  return fn(a, b);
+const display = document.getElementById("calc-display");
+
+if (display) {
+  let calcValue = "0";
+  let firstNumber = null;
+  let currentOperator = null;
+  let shouldResetDisplay = false;
+
+  const operators = {
+    "+": (a, b) => a + b,
+    "−": (a, b) => a - b,
+    "×": (a, b) => a * b,
+    "÷": (a, b) => {
+      if (b === 0) return "Ошибка";
+      return a / b;
+    }
+  };
+
+  function updateDisplay() {
+    display.textContent = calcValue;
+  }
+
+  function calculate() {
+    if (
+      firstNumber === null ||
+      currentOperator === null ||
+      calcValue === "Ошибка"
+    ) {
+      return;
+    }
+
+    const secondNumber = Number(calcValue);
+
+    const result =
+      operators[currentOperator](
+        firstNumber,
+        secondNumber
+      );
+
+    calcValue = String(result);
+
+    firstNumber = null;
+    currentOperator = null;
+    shouldResetDisplay = true;
+
+    updateDisplay();
+  }
+
+  document.querySelectorAll("[data-calc]").forEach(button => {
+
+    button.addEventListener("click", () => {
+
+      const type = button.dataset.calc;
+      const value = button.textContent.trim();
+
+      // ЧИСЛА
+      if (type === "number") {
+
+        if (
+          calcValue === "0" ||
+          calcValue === "Ошибка" ||
+          shouldResetDisplay
+        ) {
+          calcValue = value;
+          shouldResetDisplay = false;
+        } else {
+          calcValue += value;
+        }
+
+        updateDisplay();
+        return;
+      }
+
+      // ТОЧКА
+      if (type === "decimal") {
+
+        if (
+          shouldResetDisplay ||
+          calcValue === "Ошибка"
+        ) {
+          calcValue = "0.";
+          shouldResetDisplay = false;
+
+        } else if (!calcValue.includes(".")) {
+          calcValue += ".";
+        }
+
+        updateDisplay();
+        return;
+      }
+
+      // ОПЕРАТОРЫ
+      if (type === "operator") {
+
+        if (firstNumber !== null && !shouldResetDisplay) {
+          calculate();
+        }
+
+        firstNumber = Number(calcValue);
+        currentOperator = value;
+
+        shouldResetDisplay = true;
+
+        return;
+      }
+
+      // РАВНО
+      if (type === "equal") {
+        calculate();
+        return;
+      }
+
+      // ОЧИСТИТЬ
+      if (type === "clear") {
+
+        calcValue = "0";
+        firstNumber = null;
+        currentOperator = null;
+        shouldResetDisplay = false;
+
+        updateDisplay();
+        return;
+      }
+
+      // УДАЛИТЬ
+      if (type === "back") {
+
+        if (
+          shouldResetDisplay ||
+          calcValue === "Ошибка"
+        ) {
+          return;
+        }
+
+        calcValue = calcValue.slice(0, -1);
+
+        if (
+          calcValue === "" ||
+          calcValue === "-"
+        ) {
+          calcValue = "0";
+        }
+
+        updateDisplay();
+      }
+
+    });
+
+  });
+
+  updateDisplay();
 }
-
 document.querySelectorAll("[data-calc]").forEach(button => {
   button.addEventListener("click", () => {
 
