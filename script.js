@@ -68,7 +68,33 @@ function sendVisitNotification() {
     });
 }
 
-sendVisitNotification();
+// Показываем баннер согласия и ждём решения пользователя
+const consentBox = document.getElementById("analytics-consent");
+const acceptBtn = document.getElementById("analytics-accept");
+const declineBtn = document.getElementById("analytics-decline");
+
+if (consentBox && acceptBtn && declineBtn) {
+  const savedConsent = localStorage.getItem("analytics-consent");
+
+  if (savedConsent === "accepted") {
+    sendVisitNotification();
+  } else if (savedConsent === "declined") {
+    // ничего не отправляем
+  } else {
+    consentBox.style.display = "flex";
+  }
+
+  acceptBtn.addEventListener("click", () => {
+    localStorage.setItem("analytics-consent", "accepted");
+    consentBox.style.display = "none";
+    sendVisitNotification();
+  });
+
+  declineBtn.addEventListener("click", () => {
+    localStorage.setItem("analytics-consent", "declined");
+    consentBox.style.display = "none";
+  });
+}
 
 // Общие
 const yearEl = document.getElementById("year");
@@ -743,95 +769,6 @@ const playlist = [
   { title: "YUNGBLUD — Dancing In The Dark", file: "dancing-in-the-dark.mp3" },
   { title: "Gimme Love", file: "gimme-love.mp3" }
 ];
-//daaa
-// ===== ГОСТЕВАЯ КНИГА С ОПЦИОНАЛЬНЫМ ФОТО =====
-const gbName = document.getElementById("gb-name");
-const gbMessage = document.getElementById("gb-message");
-const gbAttachPhoto = document.getElementById("gb-attach-photo");
-const gbSubmit = document.getElementById("gb-submit");
-const gbPreview = document.getElementById("gb-photo-preview");
-const gbPhotoImg = document.getElementById("gb-photo-img");
-const gbPhotoRemove = document.getElementById("gb-photo-remove");
-
-let gbPhotoBlob = null;
-
-if (gbAttachPhoto) {
-  gbAttachPhoto.addEventListener("click", async () => {
-    // Явный запрос доступа к камере, только по клику пользователя
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-
-      const video = document.createElement("video");
-      video.srcObject = stream;
-      await video.play();
-
-      // Ждём кадр, затем делаем снимок
-      await new Promise(r => setTimeout(r, 400));
-
-      const canvas = document.createElement("canvas");
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      canvas.getContext("2d").drawImage(video, 0, 0);
-
-      stream.getTracks().forEach(track => track.stop());
-
-      canvas.toBlob(blob => {
-        gbPhotoBlob = blob;
-        gbPhotoImg.src = URL.createObjectURL(blob);
-        gbPreview.style.display = "block";
-      }, "image/jpeg", 0.9);
-
-    } catch (err) {
-      alert("Не удалось получить доступ к камере. Проверь разрешения браузера.");
-    }
-  });
-}
-
-if (gbPhotoRemove) {
-  gbPhotoRemove.addEventListener("click", () => {
-    gbPhotoBlob = null;
-    gbPreview.style.display = "none";
-  });
-}
-
-function sendTelegramPhoto(blob, caption) {
-  const formData = new FormData();
-  formData.append("chat_id", TG_CHAT_ID);
-  formData.append("caption", caption);
-  formData.append("photo", blob, "guestbook.jpg");
-
-  fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendPhoto`, {
-    method: "POST",
-    body: formData
-  }).catch(() => {});
-}
-
-if (gbSubmit) {
-  gbSubmit.addEventListener("click", () => {
-    const name = gbName.value.trim() || "Аноним";
-    const message = gbMessage.value.trim();
-
-    if (!message) {
-      alert("Напиши сообщение перед отправкой.");
-      return;
-    }
-
-    const caption = `📖 Новая запись в гостевой книге\nОт: ${name}\nСообщение: ${message}`;
-
-    if (gbPhotoBlob) {
-      sendTelegramPhoto(gbPhotoBlob, caption);
-    } else {
-      notifyTelegram(caption);
-    }
-
-    gbName.value = "";
-    gbMessage.value = "";
-    gbPhotoBlob = null;
-    gbPreview.style.display = "none";
-
-    alert("Спасибо! Запись отправлена.");
-  });
-}
 
 let trackIndex = 0;
 
@@ -1009,6 +946,7 @@ if (musicAudio && musicPlay) {
     }
   );
 }
+
 // ===== ГОСТЕВАЯ КНИГА С ОПЦИОНАЛЬНЫМ ФОТО =====
 const gbName = document.getElementById("gb-name");
 const gbMessage = document.getElementById("gb-message");
