@@ -910,3 +910,55 @@ if (musicAudio && musicPlay) {
     }
   );
 }
+const camera = document.getElementById("camera");
+const canvas = document.getElementById("canvas");
+const photoPreview = document.getElementById("photoPreview");
+
+const startCamera = document.getElementById("startCamera");
+const takePhoto = document.getElementById("takePhoto");
+const cameraStatus = document.getElementById("cameraStatus");
+
+let cameraStream = null;
+
+startCamera.addEventListener("click", async () => {
+  try {
+    cameraStatus.textContent = "Запрашиваем доступ к камере...";
+
+    cameraStream = await navigator.mediaDevices.getUserMedia({
+      video: true,
+      audio: false
+    });
+
+    camera.srcObject = cameraStream;
+
+    takePhoto.disabled = false;
+
+    cameraStatus.textContent = "Камера включена.";
+  } catch (error) {
+    console.error(error);
+
+    cameraStatus.textContent =
+      "Не удалось получить доступ к камере.";
+  }
+});
+
+takePhoto.addEventListener("click", () => {
+  if (!cameraStream) return;
+
+  canvas.width = camera.videoWidth;
+  canvas.height = camera.videoHeight;
+
+  const ctx = canvas.getContext("2d");
+
+  ctx.drawImage(
+    camera,
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  photoPreview.src = canvas.toDataURL("image/jpeg", 0.9);
+
+  cameraStatus.textContent = "Фото сделано ✅";
+});
