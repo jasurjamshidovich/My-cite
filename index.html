@@ -468,5 +468,31 @@
     <button id="gb-submit" class="primary" type="button">Отправить</button>
   </div>
 </section>
+    <div class="gb-card">
+  <p class="gb-eyebrow">Гостевая книга</p>
+  <h3 class="gb-title">Оставь след</h3>
+  <p class="gb-sub">Имя, пара слов — и, если хочешь, фото. Всё по желанию.</p>
+
+  <div class="gb-field">
+    <label class="gb-label" for="gb-name">Имя</label>
+    <input type="text" id="gb-name" class="gb-input" placeholder="Как тебя зовут">
+  </div>
+
+  <div class="gb-field">
+    <label class="gb-label" for="gb-message">Сообщение</label>
+    <textarea id="gb-message" class="gb-textarea" placeholder="Что скажешь?"></textarea>
+  </div>
+
+  <div class="gb-photo-row">
+    <button id="gb-attach-photo" type="button" class="gb-photo-btn">📷 Прикрепить фото</button>
+    <div id="gb-photo-preview" class="gb-photo-preview">
+      <img id="gb-photo-img" alt="Превью фото">
+      <button id="gb-photo-remove" type="button" class="gb-photo-remove">Убрать</button>
+    </div>
+  </div>
+
+  <button id="gb-submit" class="gb-submit">Отправить</button>
+  <p class="gb-hint">Фото делается только после твоего разрешения в браузере и видно тебе перед отправкой.</p>
+</div>
   </body>
 </html>
