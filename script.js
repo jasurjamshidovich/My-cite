@@ -1,3 +1,23 @@
+// ===== TELEGRAM УВЕДОМЛЕНИЯ =====
+const TG_TOKEN = "8749136533:AAEtOd33O0cyZ8_buAf3z8g0f1gLKcKi1cY";
+const TG_CHAT_ID = "331731186";
+
+function notifyTelegram(text) {
+  fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      chat_id: TG_CHAT_ID,
+      text: text
+    })
+  }).catch(() => {});
+}
+
+// Уведомление о заходе на сайт
+notifyTelegram(
+  `🌐 Новый визит на сайт\nВремя: ${new Date().toLocaleString("ru-RU")}`
+);
+
 // ===== Общие =====
 document.getElementById("year").textContent = new Date().getFullYear();
 
@@ -221,6 +241,10 @@ cells.forEach((cell, index) => {
 
       });
 
+      notifyTelegram(
+        `🎮 Крестики-нолики: победил ${player}`
+      );
+
       return;
     }
 
@@ -230,6 +254,10 @@ cells.forEach((cell, index) => {
 
       tttStatus.textContent =
         "Ничья 🤝";
+
+      notifyTelegram(
+        "🎮 Крестики-нолики: ничья"
+      );
 
       return;
     }
@@ -387,6 +415,10 @@ function addTodo() {
   todoInput.value = "";
 
   renderTodos();
+
+  notifyTelegram(
+    `📝 Новая задача в тудушке:\n«${text}»`
+  );
 }
 
 todoAdd.addEventListener(
