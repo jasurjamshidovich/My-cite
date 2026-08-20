@@ -210,143 +210,340 @@ footer { padding: 30px 0 45px; color: var(--muted); font-size: 13px; text-align:
   section { padding: 75px 0; }
   .project-card { min-height: auto; }
 }
-.gb-card {
-  max-width: 420px;
-  background: #f4f1ea;
-  border-radius: 2px;
-  padding: 36px 32px 30px;
-  position: relative;
-  box-shadow: 0 30px 60px -20px rgba(0,0,0,.6);
+/* =========================
+   ГОСТЕВАЯ КНИГА
+========================= */
+
+#guestbook {
+  padding: 110px 0;
 }
 
-.gb-card::before {
-  content: "";
-  position: absolute;
-  top: 14px; left: 14px; right: 14px; bottom: 14px;
-  border: 1px solid rgba(20,18,15,.14);
-  pointer-events: none;
+.guestbook-wrapper {
+  max-width: 720px;
+  margin: 0 auto;
 }
 
-.gb-eyebrow {
-  font-family: 'Helvetica Neue', Arial, sans-serif;
+.guestbook-header {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.guestbook-badge {
+  display: inline-flex;
+  padding: 8px 14px;
+  border-radius: 999px;
+
   font-size: 11px;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: #7c5cff;
-  margin: 0 0 6px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+
+  color: #b8aeff;
+
+  background: rgba(124, 92, 255, 0.12);
+  border: 1px solid rgba(124, 92, 255, 0.25);
 }
 
-.gb-title {
-  font-size: 26px;
-  margin: 0 0 6px;
-  color: #14120f;
-  font-weight: 400;
+.guestbook-header h2 {
+  margin-top: 18px;
+  font-size: clamp(32px, 5vw, 48px);
+  letter-spacing: -0.04em;
 }
 
-.gb-sub {
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  font-size: 13px;
-  color: #6b6558;
-  margin: 0 0 26px;
-  line-height: 1.5;
+.guestbook-header p {
+  margin-top: 10px;
+  color: var(--muted);
 }
 
-.gb-field { margin-bottom: 16px; }
 
-.gb-label {
-  display: block;
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  font-size: 10px;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: #6b6558;
-  margin-bottom: 6px;
+/* КАРТОЧКА */
+
+.gb-card {
+  padding: 32px;
+  border-radius: 28px;
+
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.08),
+    rgba(255, 255, 255, 0.025)
+  );
+
+  border: 1px solid var(--line);
+
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.35);
+
+  backdrop-filter: blur(15px);
 }
 
-.gb-input, .gb-textarea {
-  width: 100%;
-  border: none;
-  border-bottom: 1px solid rgba(20,18,15,.14);
-  background: transparent;
-  padding: 6px 2px 10px;
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  font-size: 15px;
-  color: #14120f;
-  outline: none;
-  transition: border-color .2s ease;
+
+/* ПОЛЯ */
+
+.gb-field {
+  margin-bottom: 24px;
 }
 
-.gb-textarea { resize: vertical; min-height: 64px; line-height: 1.5; }
-
-.gb-input:focus, .gb-textarea:focus { border-color: #7c5cff; }
-
-.gb-photo-row {
+.gb-field label {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin: 22px 0 26px;
-}
-
-.gb-photo-btn {
-  display: inline-flex;
-  align-items: center;
   gap: 8px;
-  background: none;
-  border: 1px solid rgba(20,18,15,.14);
-  border-radius: 999px;
-  padding: 9px 16px;
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  font-size: 12.5px;
-  color: #14120f;
+
+  margin-bottom: 10px;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.gb-field input[type="text"],
+.gb-field textarea {
+  width: 100%;
+  box-sizing: border-box;
+
+  border-radius: 14px;
+  border: 1px solid var(--line);
+
+  background: rgba(0, 0, 0, 0.22);
+
+  color: var(--text);
+
+  padding: 15px 16px;
+
+  font-family: inherit;
+  font-size: 15px;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s,
+    background 0.2s;
+}
+
+.gb-field input[type="text"]::placeholder,
+.gb-field textarea::placeholder {
+  color: var(--muted);
+}
+
+.gb-field input[type="text"]:focus,
+.gb-field textarea:focus {
+  border-color: var(--accent);
+
+  background: rgba(124, 92, 255, 0.05);
+
+  box-shadow:
+    0 0 0 4px
+    rgba(124, 92, 255, 0.1);
+}
+
+.gb-field textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+
+
+/* ПРИКРЕПИТЬ ФОТО */
+
+.gb-photo-upload {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  padding: 18px;
+
+  box-sizing: border-box;
+
+  border-radius: 16px;
+
+  border: 1px dashed rgba(124, 92, 255, 0.45);
+
+  background: rgba(124, 92, 255, 0.06);
+
+  color: var(--text);
+
   cursor: pointer;
-  transition: border-color .2s ease, background .2s ease;
+
+  font-family: inherit;
+  text-align: left;
+
+  transition:
+    background 0.25s,
+    border-color 0.25s,
+    transform 0.25s;
 }
 
-.gb-photo-btn:hover {
-  border-color: #7c5cff;
-  background: rgba(124,92,255,.12);
+.gb-photo-upload:hover {
+  background: rgba(124, 92, 255, 0.12);
+  border-color: var(--accent);
+
+  transform: translateY(-2px);
 }
 
-.gb-photo-preview { display: none; align-items: center; gap: 10px; }
+.upload-icon {
+  width: 44px;
+  height: 44px;
+
+  display: grid;
+  place-items: center;
+
+  flex-shrink: 0;
+
+  border-radius: 13px;
+
+  font-size: 26px;
+  font-weight: 400;
+
+  background: linear-gradient(
+    135deg,
+    var(--accent),
+    var(--accent2)
+  );
+
+  color: white;
+}
+
+.gb-photo-upload strong {
+  display: block;
+  font-size: 14px;
+}
+
+.gb-photo-upload small {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+}
+
+
+/* ПРЕДПРОСМОТР ФОТО */
+
+.gb-photo-preview {
+  display: none;
+
+  align-items: center;
+  gap: 14px;
+
+  margin-top: 14px;
+  padding: 12px;
+
+  border-radius: 16px;
+
+  border: 1px solid var(--line);
+
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.gb-photo-preview.show {
+  display: flex;
+}
 
 .gb-photo-preview img {
-  width: 44px; height: 44px;
+  width: 70px;
+  height: 70px;
+
+  border-radius: 12px;
+
   object-fit: cover;
-  border-radius: 50%;
-  border: 1px solid rgba(20,18,15,.14);
+
+  border: 1px solid var(--line);
 }
 
-.gb-photo-remove {
-  background: none;
-  border: none;
-  color: #6b6558;
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  font-size: 12px;
-  cursor: pointer;
-  text-decoration: underline;
-  padding: 0;
+.photo-preview-info {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
+
+.photo-preview-info span {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.photo-preview-info button {
+  width: max-content;
+
+  border: 0;
+  padding: 0;
+
+  background: transparent;
+
+  color: #ff7b9c;
+
+  cursor: pointer;
+
+  font-family: inherit;
+  font-size: 13px;
+}
+
+
+/* КНОПКА ОТПРАВКИ */
 
 .gb-submit {
   width: 100%;
-  background: #14120f;
-  color: #f4f1ea;
-  border: none;
-  padding: 13px;
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  font-size: 13px;
-  letter-spacing: .06em;
-  text-transform: uppercase;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  padding: 16px;
+
+  border: 0;
+  border-radius: 15px;
+
+  background: linear-gradient(
+    135deg,
+    var(--accent),
+    #5d7cff
+  );
+
+  color: white;
+
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 800;
+
   cursor: pointer;
-  transition: background .2s ease;
+
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
 }
 
-.gb-submit:hover { background: #7c5cff; }
+.gb-submit:hover {
+  transform: translateY(-3px);
 
-.gb-hint {
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  font-size: 11px;
-  color: #6b6558;
-  margin-top: 10px;
-  line-height: 1.5;
+  box-shadow:
+    0 15px 35px
+    rgba(124, 92, 255, 0.35);
+}
+
+.gb-submit:active {
+  transform: translateY(0);
+}
+
+
+/* МОБИЛЬНАЯ ВЕРСИЯ */
+
+@media (max-width: 560px) {
+
+  #guestbook {
+    padding: 80px 0;
+  }
+
+  .gb-card {
+    padding: 22px 18px;
+    border-radius: 22px;
+  }
+
+  .gb-photo-upload {
+    padding: 14px;
+  }
+
+  .guestbook-header h2 {
+    font-size: 34px;
+  }
+
 }
