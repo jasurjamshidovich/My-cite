@@ -451,5 +451,22 @@
     <footer>© <span id="year"></span> Jasur. Built with curiosity.</footer>
 
     <script src="script.js"></script>
+    <section id="guestbook" class="card">
+  <h3>📖 Гостевая книга</h3>
+  <p>Оставь сообщение — можно с фото, если хочешь.</p>
+
+  <input type="text" id="gb-name" placeholder="Твоё имя">
+  <textarea id="gb-message" placeholder="Сообщение"></textarea>
+
+  <div id="gb-photo-preview" style="display:none; margin: 10px 0;">
+    <img id="gb-photo-img" style="max-width:200px; border-radius:8px;">
+    <button id="gb-photo-remove" type="button">✕ Убрать фото</button>
+  </div>
+
+  <div class="analytics-consent-buttons">
+    <button id="gb-attach-photo" type="button">📷 Прикрепить фото</button>
+    <button id="gb-submit" class="primary" type="button">Отправить</button>
+  </div>
+</section>
   </body>
 </html>
