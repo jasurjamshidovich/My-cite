@@ -1140,37 +1140,3 @@ footer {
     font-size: 42px;
   }
 }
-.camera-box {
-  max-width: 500px;
-  margin: 30px auto;
-  text-align: center;
-}
-
-#camera,
-#photoPreview {
-  width: 100%;
-  border-radius: 15px;
-  display: block;
-  margin-bottom: 15px;
-}
-
-#canvas {
-  display: none;
-}
-
-.camera-box button {
-  padding: 12px 18px;
-  margin: 5px;
-  border: 0;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-.camera-box button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-#cameraStatus {
-  margin-top: 15px;
-}
