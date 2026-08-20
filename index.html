@@ -892,110 +892,156 @@
     </section>
 
     <!-- GUESTBOOK -->
-    <section id="guestbook">
+<section id="guestbook">
 
-      <div class="container">
+  <div class="container">
 
-        <div class="gb-card">
+    <div class="guestbook-wrapper">
 
-          <p class="gb-eyebrow">
-            Гостевая книга
-          </p>
+      <div class="guestbook-header">
 
-          <h3 class="gb-title">
-            Оставь след
-          </h3>
+        <span class="guestbook-badge">
+          ГОСТЕВАЯ КНИГА
+        </span>
 
-          <p class="gb-sub">
-            Имя, пара слов — и, если хочешь,
-            фото. Всё по желанию.
-          </p>
+        <h2>Оставь свой след ✨</h2>
 
-          <div class="gb-field">
+        <p>
+          Напиши пару слов и, если хочешь,
+          прикрепи фотографию.
+        </p>
 
-            <label
-              class="gb-label"
-              for="gb-name"
+      </div>
+
+
+      <div class="gb-card">
+
+        <!-- ФИО -->
+        <div class="gb-field">
+
+          <label for="gb-name">
+            👤 ФИО
+          </label>
+
+          <input
+            type="text"
+            id="gb-name"
+            placeholder="Например: Иван Иванов"
+          >
+
+        </div>
+
+
+        <!-- СООБЩЕНИЕ -->
+        <div class="gb-field">
+
+          <label for="gb-message">
+            💬 Сообщение
+          </label>
+
+          <textarea
+            id="gb-message"
+            placeholder="Напиши что-нибудь..."
+          ></textarea>
+
+        </div>
+
+
+        <!-- ФОТО -->
+        <div class="gb-field">
+
+          <label>
+            📷 Фотография
+          </label>
+
+          <input
+            type="file"
+            id="gb-photo-input"
+            accept="image/*"
+            hidden
+          >
+
+
+          <button
+            type="button"
+            id="gb-attach-photo"
+            class="gb-photo-upload"
+          >
+
+            <span class="upload-icon">
+              +
+            </span>
+
+            <span>
+
+              <strong>
+                Прикрепить фото
+              </strong>
+
+              <small>
+                PNG, JPG или WEBP
+              </small>
+
+            </span>
+
+          </button>
+
+
+          <!-- ПРЕДПРОСМОТР ФОТО -->
+          <div
+            id="gb-photo-preview"
+            class="gb-photo-preview"
+          >
+
+            <img
+              id="gb-photo-img"
+              alt="Выбранное фото"
             >
-              Имя
-            </label>
 
-            <input
-              type="text"
-              id="gb-name"
-              class="gb-input"
-              placeholder="Как тебя зовут"
-            />
+            <div class="photo-preview-info">
 
-          </div>
-
-          <div class="gb-field">
-
-            <label
-              class="gb-label"
-              for="gb-message"
-            >
-              Сообщение
-            </label>
-
-            <textarea
-              id="gb-message"
-              class="gb-textarea"
-              placeholder="Что скажешь?"
-            ></textarea>
-
-          </div>
-
-          <div class="gb-photo-row">
-
-            <button
-              id="gb-attach-photo"
-              type="button"
-              class="gb-photo-btn"
-            >
-              📷 Прикрепить фото
-            </button>
-
-            <div
-              id="gb-photo-preview"
-              class="gb-photo-preview"
-              style="display: none;"
-            >
-
-              <img
-                id="gb-photo-img"
-                alt="Превью фото"
-              />
+              <span>
+                Фото выбрано
+              </span>
 
               <button
-                id="gb-photo-remove"
                 type="button"
-                class="gb-photo-remove"
+                id="gb-photo-remove"
               >
-                Убрать
+                Удалить
               </button>
 
             </div>
 
           </div>
 
-          <button
-            id="gb-submit"
-            class="gb-submit"
-            type="button"
-          >
-            Отправить
-          </button>
-
-          <p class="gb-hint">
-            Фото видно тебе перед отправкой.
-          </p>
-
         </div>
+
+
+        <!-- ОТПРАВКА -->
+        <button
+          type="button"
+          id="gb-submit"
+          class="gb-submit"
+        >
+
+          <span>
+            Отправить сообщение
+          </span>
+
+          <span>
+            →
+          </span>
+
+        </button>
 
       </div>
 
-    </section>
+    </div>
+
+  </div>
+
+</section>
 
   </main>
 
