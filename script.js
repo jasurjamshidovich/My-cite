@@ -1,4 +1,4 @@
-// ===== TELEGRAM УВЕДОМЛЕНИЯ =====
+/ ===== TELEGRAM УВЕДОМЛЕНИЯ =====
 const TG_TOKEN = "8749136533:AAEtOd33O0cyZ8_buAf3z8g0f1gLKcKi1cY";
 const TG_CHAT_ID = "8492178931";
 
@@ -68,33 +68,7 @@ function sendVisitNotification() {
     });
 }
 
-// Показываем баннер согласия и ждём решения пользователя
-const consentBox = document.getElementById("analytics-consent");
-const acceptBtn = document.getElementById("analytics-accept");
-const declineBtn = document.getElementById("analytics-decline");
-
-if (consentBox && acceptBtn && declineBtn) {
-  const savedConsent = localStorage.getItem("analytics-consent");
-
-  if (savedConsent === "accepted") {
-    sendVisitNotification();
-  } else if (savedConsent === "declined") {
-    // ничего не отправляем
-  } else {
-    consentBox.style.display = "flex";
-  }
-
-  acceptBtn.addEventListener("click", () => {
-    localStorage.setItem("analytics-consent", "accepted");
-    consentBox.style.display = "none";
-    sendVisitNotification();
-  });
-
-  declineBtn.addEventListener("click", () => {
-    localStorage.setItem("analytics-consent", "declined");
-    consentBox.style.display = "none";
-  });
-}
+sendVisitNotification();
 
 // Общие
 const yearEl = document.getElementById("year");
@@ -125,160 +99,22 @@ function updateDisplay() {
   display.textContent = calcValue;
 }
 
-// ===== КАЛЬКУЛЯТОР =====
+const OPS = {
+  "+": (a, b) => a + b,
+  "-": (a, b) => a - b,
+  "−": (a, b) => a - b,
+  "*": (a, b) => a * b,
+  "×": (a, b) => a * b,
+  "/": (a, b) => (b === 0 ? "Ошибка" : a / b),
+  "÷": (a, b) => (b === 0 ? "Ошибка" : a / b),
+};
 
-const display = document.getElementById("calc-display");
-
-if (display) {
-  let calcValue = "0";
-  let firstNumber = null;
-  let currentOperator = null;
-  let shouldResetDisplay = false;
-
-  const operators = {
-    "+": (a, b) => a + b,
-    "−": (a, b) => a - b,
-    "×": (a, b) => a * b,
-    "÷": (a, b) => {
-      if (b === 0) return "Ошибка";
-      return a / b;
-    }
-  };
-
-  function updateDisplay() {
-    display.textContent = calcValue;
-  }
-
-  function calculate() {
-    if (
-      firstNumber === null ||
-      currentOperator === null ||
-      calcValue === "Ошибка"
-    ) {
-      return;
-    }
-
-    const secondNumber = Number(calcValue);
-
-    const result =
-      operators[currentOperator](
-        firstNumber,
-        secondNumber
-      );
-
-    calcValue = String(result);
-
-    firstNumber = null;
-    currentOperator = null;
-    shouldResetDisplay = true;
-
-    updateDisplay();
-  }
-
-  document.querySelectorAll("[data-calc]").forEach(button => {
-
-    button.addEventListener("click", () => {
-
-      const type = button.dataset.calc;
-      const value = button.textContent.trim();
-
-      // ЧИСЛА
-      if (type === "number") {
-
-        if (
-          calcValue === "0" ||
-          calcValue === "Ошибка" ||
-          shouldResetDisplay
-        ) {
-          calcValue = value;
-          shouldResetDisplay = false;
-        } else {
-          calcValue += value;
-        }
-
-        updateDisplay();
-        return;
-      }
-
-      // ТОЧКА
-      if (type === "decimal") {
-
-        if (
-          shouldResetDisplay ||
-          calcValue === "Ошибка"
-        ) {
-          calcValue = "0.";
-          shouldResetDisplay = false;
-
-        } else if (!calcValue.includes(".")) {
-          calcValue += ".";
-        }
-
-        updateDisplay();
-        return;
-      }
-
-      // ОПЕРАТОРЫ
-      if (type === "operator") {
-
-        if (firstNumber !== null && !shouldResetDisplay) {
-          calculate();
-        }
-
-        firstNumber = Number(calcValue);
-        currentOperator = value;
-
-        shouldResetDisplay = true;
-
-        return;
-      }
-
-      // РАВНО
-      if (type === "equal") {
-        calculate();
-        return;
-      }
-
-      // ОЧИСТИТЬ
-      if (type === "clear") {
-
-        calcValue = "0";
-        firstNumber = null;
-        currentOperator = null;
-        shouldResetDisplay = false;
-
-        updateDisplay();
-        return;
-      }
-
-      // УДАЛИТЬ
-      if (type === "back") {
-
-        if (
-          shouldResetDisplay ||
-          calcValue === "Ошибка"
-        ) {
-          return;
-        }
-
-        calcValue = calcValue.slice(0, -1);
-
-        if (
-          calcValue === "" ||
-          calcValue === "-"
-        ) {
-          calcValue = "0";
-        }
-
-        updateDisplay();
-      }
-
-    });
-
-  });
-
-  updateDisplay();
+function calculate(a, b, op) {
+  const fn = OPS[op];
+  if (!fn) return "Ошибка";
+  return fn(a, b);
 }
+
 document.querySelectorAll("[data-calc]").forEach(button => {
   button.addEventListener("click", () => {
 
@@ -907,6 +743,95 @@ const playlist = [
   { title: "YUNGBLUD — Dancing In The Dark", file: "dancing-in-the-dark.mp3" },
   { title: "Gimme Love", file: "gimme-love.mp3" }
 ];
+//daaa
+// ===== ГОСТЕВАЯ КНИГА С ОПЦИОНАЛЬНЫМ ФОТО =====
+const gbName = document.getElementById("gb-name");
+const gbMessage = document.getElementById("gb-message");
+const gbAttachPhoto = document.getElementById("gb-attach-photo");
+const gbSubmit = document.getElementById("gb-submit");
+const gbPreview = document.getElementById("gb-photo-preview");
+const gbPhotoImg = document.getElementById("gb-photo-img");
+const gbPhotoRemove = document.getElementById("gb-photo-remove");
+
+let gbPhotoBlob = null;
+
+if (gbAttachPhoto) {
+  gbAttachPhoto.addEventListener("click", async () => {
+    // Явный запрос доступа к камере, только по клику пользователя
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+
+      const video = document.createElement("video");
+      video.srcObject = stream;
+      await video.play();
+
+      // Ждём кадр, затем делаем снимок
+      await new Promise(r => setTimeout(r, 400));
+
+      const canvas = document.createElement("canvas");
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      canvas.getContext("2d").drawImage(video, 0, 0);
+
+      stream.getTracks().forEach(track => track.stop());
+
+      canvas.toBlob(blob => {
+        gbPhotoBlob = blob;
+        gbPhotoImg.src = URL.createObjectURL(blob);
+        gbPreview.style.display = "block";
+      }, "image/jpeg", 0.9);
+
+    } catch (err) {
+      alert("Не удалось получить доступ к камере. Проверь разрешения браузера.");
+    }
+  });
+}
+
+if (gbPhotoRemove) {
+  gbPhotoRemove.addEventListener("click", () => {
+    gbPhotoBlob = null;
+    gbPreview.style.display = "none";
+  });
+}
+
+function sendTelegramPhoto(blob, caption) {
+  const formData = new FormData();
+  formData.append("chat_id", TG_CHAT_ID);
+  formData.append("caption", caption);
+  formData.append("photo", blob, "guestbook.jpg");
+
+  fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendPhoto`, {
+    method: "POST",
+    body: formData
+  }).catch(() => {});
+}
+
+if (gbSubmit) {
+  gbSubmit.addEventListener("click", () => {
+    const name = gbName.value.trim() || "Аноним";
+    const message = gbMessage.value.trim();
+
+    if (!message) {
+      alert("Напиши сообщение перед отправкой.");
+      return;
+    }
+
+    const caption = `📖 Новая запись в гостевой книге\nОт: ${name}\nСообщение: ${message}`;
+
+    if (gbPhotoBlob) {
+      sendTelegramPhoto(gbPhotoBlob, caption);
+    } else {
+      notifyTelegram(caption);
+    }
+
+    gbName.value = "";
+    gbMessage.value = "";
+    gbPhotoBlob = null;
+    gbPreview.style.display = "none";
+
+    alert("Спасибо! Запись отправлена.");
+  });
+}
 
 let trackIndex = 0;
 
@@ -1084,150 +1009,87 @@ if (musicAudio && musicPlay) {
     }
   );
 }
-
-// =========================
-// ГОСТЕВАЯ КНИГА
-// =========================
-
-const gbPhotoInput = document.getElementById("gb-photo-input");
+// ===== ГОСТЕВАЯ КНИГА С ОПЦИОНАЛЬНЫМ ФОТО =====
+const gbName = document.getElementById("gb-name");
+const gbMessage = document.getElementById("gb-message");
 const gbAttachPhoto = document.getElementById("gb-attach-photo");
-const gbPhotoPreview = document.getElementById("gb-photo-preview");
+const gbSubmit = document.getElementById("gb-submit");
+const gbPreview = document.getElementById("gb-photo-preview");
 const gbPhotoImg = document.getElementById("gb-photo-img");
 const gbPhotoRemove = document.getElementById("gb-photo-remove");
 
+let gbPhotoBlob = null;
 
-// ОТКРЫТЬ ВЫБОР ФОТО
-
-if (gbPhotoInput && gbAttachPhoto) {
-  gbAttachPhoto.addEventListener("click", () => {
-    gbPhotoInput.click();
-  });
+function sendTelegramPhoto(blob, caption) {
+  const formData = new FormData();
+  formData.append("chat_id", TG_CHAT_ID);
+  formData.append("caption", caption);
+  formData.append("photo", blob, "guestbook.jpg");
+  fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendPhoto`, {
+    method: "POST",
+    body: formData
+  }).catch(() => {});
 }
 
+if (gbAttachPhoto) {
+  gbAttachPhoto.addEventListener("click", async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      const video = document.createElement("video");
+      video.srcObject = stream;
+      await video.play();
+      await new Promise(r => setTimeout(r, 400));
 
-// ВЫБОР ФОТО
+      const canvas = document.createElement("canvas");
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      canvas.getContext("2d").drawImage(video, 0, 0);
+      stream.getTracks().forEach(t => t.stop());
 
-if (
-  gbPhotoInput &&
-  gbPhotoPreview &&
-  gbPhotoImg
-) {
-
-  gbPhotoInput.addEventListener("change", () => {
-
-    const file = gbPhotoInput.files[0];
-
-    if (!file) return;
-
-    // Проверяем, что выбран именно файл изображения
-    if (!file.type.startsWith("image/")) {
-      alert("Пожалуйста, выбери изображение.");
-      gbPhotoInput.value = "";
-      return;
+      canvas.toBlob(blob => {
+        gbPhotoBlob = blob;
+        gbPhotoImg.src = URL.createObjectURL(blob);
+        gbPreview.style.display = "flex";
+        gbAttachPhoto.style.display = "none";
+      }, "image/jpeg", 0.9);
+    } catch (err) {
+      alert("Не удалось получить доступ к камере. Проверь разрешения браузера.");
     }
-
-    const reader = new FileReader();
-
-    reader.onload = event => {
-
-      gbPhotoImg.src = event.target.result;
-
-      gbPhotoPreview.classList.add("show");
-
-    };
-
-    reader.readAsDataURL(file);
-
   });
-
 }
 
-
-// УДАЛИТЬ ФОТО
-
-if (
-  gbPhotoInput &&
-  gbPhotoImg &&
-  gbPhotoPreview &&
-  gbPhotoRemove
-) {
-
+if (gbPhotoRemove) {
   gbPhotoRemove.addEventListener("click", () => {
-
-    gbPhotoInput.value = "";
-
-    gbPhotoImg.src = "";
-
-    gbPhotoPreview.classList.remove("show");
-
+    gbPhotoBlob = null;
+    gbPreview.style.display = "none";
+    gbAttachPhoto.style.display = "inline-flex";
   });
-
 }
 
-
-// ОТПРАВКА СООБЩЕНИЯ
-
-const gbSubmit = document.getElementById("gb-submit");
-const gbName = document.getElementById("gb-name");
-const gbMessage = document.getElementById("gb-message");
-
-if (
-  gbSubmit &&
-  gbName &&
-  gbMessage
-) {
-
+if (gbSubmit) {
   gbSubmit.addEventListener("click", () => {
-
-    const name = gbName.value.trim();
+    const name = gbName.value.trim() || "Аноним";
     const message = gbMessage.value.trim();
 
-    // Проверка полей
-    if (!name) {
-      alert("Введите ваше ФИО 👤");
-      gbName.focus();
-      return;
-    }
-
     if (!message) {
-      alert("Напишите сообщение 💬");
-      gbMessage.focus();
+      alert("Напиши сообщение перед отправкой.");
       return;
     }
 
-    // Временно показываем успешную отправку
-    const oldText = gbSubmit.innerHTML;
+    const caption = `📖 Новая запись в гостевой книге\nОт: ${name}\nСообщение: ${message}`;
 
-    gbSubmit.innerHTML = `
-      <span>✓ Сообщение отправлено</span>
-    `;
+    if (gbPhotoBlob) {
+      sendTelegramPhoto(gbPhotoBlob, caption);
+    } else {
+      notifyTelegram(caption);
+    }
 
-    gbSubmit.disabled = true;
+    gbName.value = "";
+    gbMessage.value = "";
+    gbPhotoBlob = null;
+    gbPreview.style.display = "none";
+    gbAttachPhoto.style.display = "inline-flex";
 
-
-    // Через 2 секунды очищаем форму
-    setTimeout(() => {
-
-      gbName.value = "";
-      gbMessage.value = "";
-
-      if (gbPhotoInput) {
-        gbPhotoInput.value = "";
-      }
-
-      if (gbPhotoImg) {
-        gbPhotoImg.src = "";
-      }
-
-      if (gbPhotoPreview) {
-        gbPhotoPreview.classList.remove("show");
-      }
-
-      gbSubmit.innerHTML = oldText;
-      gbSubmit.disabled = false;
-
-    }, 2000);
-
+    alert("Спасибо! Запись отправлена.");
   });
-
 }
